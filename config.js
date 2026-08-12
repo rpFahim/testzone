@@ -2,5 +2,5 @@
 // উদাহরণ: https://script.google.com/macros/s/AKfycbxxxxxxxx/exec
 window.STUDENTS_FEES_CONFIG = {
   API_URL:
-    "https://script.google.com/macros/s/AKfycbzEK61Qq_kAVAFiFusApdatdv5UFozqkM3U7pAW0hN8mbcJPGwMylQ95-PlezwXQmNXcA/exec",
+    "https://script.google.com/macros/s/AKfycbzYjRA6Ha9TR1gfBsffnr3h_bRr2y5Kjg_-HgEfhiqIpojXk89D46VXSOBpP8L8Ggk3IA/exec",
 };
