@@ -1,0 +1,9 @@
+{
+  "name": "Students Fees — দক্ষিণ পানিয়ালা মোহাম্মদীয়া মাদ্রাসা",
+  "short_name": "Students Fees",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f8f6",
+  "theme_color": "#0f6b4f",
+  "icons": [{"src":"./logo.png","sizes":"512x512","type":"image/png"}]
+}
