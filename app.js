@@ -30,19 +30,12 @@ async function api(url, options = {}) {
   let payload = {};
   try { payload = options.body ? JSON.parse(options.body) : {}; } catch { payload = {}; }
   if (routeMatch?.[1]) payload.id = Number(routeMatch[1]);
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 45000);
-  let response;
+  let result;
   try {
-    response = await fetch(apiUrl, {
-      method: 'POST', redirect: 'follow', signal: controller.signal,
-      headers: { 'Content-Type':'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action, token: localStorage.getItem('sf_session') || '', payload })
-    });
+    result = await appsScriptRequest(apiUrl, { action, token: localStorage.getItem('sf_session') || '', payload });
   } catch (error) {
-    throw new Error(error.name === 'AbortError' ? 'Backend উত্তর দিতে বেশি সময় নিচ্ছে। আবার চেষ্টা করুন।' : 'Backend-এর সঙ্গে সংযোগ হচ্ছে না। Apps Script Deploy ও config.js URL পরীক্ষা করুন।');
-  } finally { clearTimeout(timer); }
-  const result = await response.json().catch(() => null);
+    throw new Error(error.message || 'Backend-এর সঙ্গে সংযোগ হচ্ছে না। Apps Script Deploy ও config.js URL পরীক্ষা করুন।');
+  }
   if (!result?.ok) {
     if (result?.code === 'AUTH_REQUIRED') { localStorage.removeItem('sf_session'); if (!url.includes('/login')) showGate(false); }
     throw new Error(result?.error || 'কাজটি সম্পন্ন হয়নি।');
@@ -53,6 +46,48 @@ async function api(url, options = {}) {
   }
   if (action === 'logout') localStorage.removeItem('sf_session');
   return result.data;
+}
+
+function appsScriptRequest(apiUrl, request) {
+  return new Promise((resolve, reject) => {
+    const bridgeId = `sf_${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`}`;
+    const frame = document.createElement('iframe');
+    const form = document.createElement('form');
+    const frameName = `students_fees_bridge_${bridgeId.replace(/[^a-zA-Z0-9_]/g, '')}`;
+    frame.name = frameName;
+    frame.style.display = 'none';
+    frame.setAttribute('aria-hidden', 'true');
+    form.method = 'POST';
+    form.action = apiUrl;
+    form.target = frameName;
+    form.style.display = 'none';
+
+    const requestInput = document.createElement('input');
+    requestInput.type = 'hidden'; requestInput.name = 'request'; requestInput.value = JSON.stringify(request);
+    const idInput = document.createElement('input');
+    idInput.type = 'hidden'; idInput.name = 'bridge_id'; idInput.value = bridgeId;
+    form.append(requestInput, idInput);
+
+    let settled = false;
+    const cleanup = () => {
+      window.removeEventListener('message', onMessage);
+      clearTimeout(timer);
+      setTimeout(() => { frame.remove(); form.remove(); }, 0);
+    };
+    const onMessage = (event) => {
+      const hostname = (() => { try { return new URL(event.origin).hostname; } catch { return ''; } })();
+      const trustedGoogleOrigin = hostname === 'script.google.com' || hostname.endsWith('.googleusercontent.com');
+      if (!trustedGoogleOrigin || event.data?.source !== 'students-fees-apps-script' || event.data?.bridge_id !== bridgeId || settled) return;
+      settled = true; cleanup(); resolve(event.data.response);
+    };
+    const timer = setTimeout(() => {
+      if (settled) return;
+      settled = true; cleanup(); reject(new Error('Backend উত্তর দিতে বেশি সময় নিচ্ছে। Apps Script নতুন Version Deploy করে আবার চেষ্টা করুন।'));
+    }, 45000);
+    window.addEventListener('message', onMessage);
+    document.body.append(frame, form);
+    form.submit();
+  });
 }
 
 function toast(message, error = false) {
