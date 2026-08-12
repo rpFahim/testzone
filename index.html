@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="bn">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -10,6 +11,7 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./status.css">
 </head>
+
 <body>
   <div id="toast" class="toast" aria-live="polite"></div>
 
@@ -23,10 +25,14 @@
       <form id="setup-form" class="hidden form-stack">
         <div class="welcome"><strong>প্রথমবারের Setup</strong><span>নিজের Admin Login তৈরি করুন</span></div>
         <label>আপনার নাম<input name="name" autocomplete="name" required placeholder="যেমন: মোঃ আব্দুল্লাহ"></label>
-        <label>Admin Username<input name="username" autocomplete="username" required pattern="[A-Za-z0-9._-]{3,40}" placeholder="যেমন: admin"></label>
-        <label>One-time Setup Code<input name="setup_code" inputmode="numeric" required placeholder="Google Sheet-এ দেখানো Code"></label>
-        <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" required placeholder="কমপক্ষে ৬ অক্ষর"></label>
-        <label>Password আবার দিন<input name="confirm_password" type="password" autocomplete="new-password" minlength="6" required></label>
+        <label>Admin Username<input name="username" autocomplete="username" required pattern="[A-Za-z0-9._-]{3,40}"
+            placeholder="যেমন: admin"></label>
+        <label>One-time Setup Code<input name="setup_code" inputmode="numeric" required
+            placeholder="Google Sheet-এ দেখানো Code"></label>
+        <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" required
+            placeholder="কমপক্ষে ৬ অক্ষর"></label>
+        <label>Password আবার দিন<input name="confirm_password" type="password" autocomplete="new-password" minlength="6"
+            required></label>
         <button class="btn primary wide" type="submit">Setup সম্পন্ন করুন</button>
       </form>
 
@@ -42,7 +48,9 @@
 
   <div id="app" class="app hidden">
     <aside class="sidebar">
-      <div class="brand"><img src="./logo.png" alt=""><div><strong>Students Fees</strong><small>শিক্ষাবর্ষ ২০২৬</small></div></div>
+      <div class="brand"><img src="./logo.png" alt="">
+        <div><strong>Students Fees</strong><small>শিক্ষাবর্ষ ২০২৬</small></div>
+      </div>
       <nav id="nav">
         <button data-view="dashboard" class="active"><span>⌂</span> ড্যাশবোর্ড</button>
         <button data-view="students"><span>♟</span> শিক্ষার্থী</button>
@@ -50,82 +58,197 @@
         <button data-view="reports"><span>▤</span> রিপোর্ট</button>
         <button data-view="users" data-admin><span>⚙</span> ব্যবহারকারী</button>
       </nav>
-      <div class="sidebar-foot"><div id="current-user"></div><button id="logout" class="link-btn">Logout</button></div>
+      <div class="sidebar-foot">
+        <div id="current-user"></div><button id="logout" class="link-btn">Logout</button>
+      </div>
     </aside>
 
     <div class="workspace">
       <header class="topbar">
         <button id="menu" class="menu" aria-label="Menu">☰</button>
-        <div><h2 id="page-title">ড্যাশবোর্ড</h2><p id="today-label"></p></div>
-        <div class="top-institution"><strong>দক্ষিণ পানিয়ালা মোহাম্মদীয়া মাদ্রাসা</strong><span>দক্ষিণ পানিয়ালা, রামগঞ্জ, লক্ষীপুর</span></div>
+        <div>
+          <h2 id="page-title">ড্যাশবোর্ড</h2>
+          <p id="today-label"></p>
+        </div>
+        <div class="top-institution"><strong>দক্ষিণ পানিয়ালা মোহাম্মদীয়া মাদ্রাসা</strong><span>দক্ষিণ পানিয়ালা,
+            রামগঞ্জ, লক্ষীপুর</span></div>
       </header>
 
       <main class="content">
         <section id="view-dashboard" class="view active">
           <div class="stats">
-            <article><span>মোট শিক্ষার্থী</span><strong id="stat-students">০</strong><small>সক্রিয় শিক্ষার্থী</small></article>
-            <article><span>আজকের সংগ্রহ</span><strong id="stat-today">৳ ০</strong><small>আজ গ্রহণ করা হয়েছে</small></article>
+            <article><span>মোট শিক্ষার্থী</span><strong id="stat-students">০</strong><small>সক্রিয় শিক্ষার্থী</small>
+            </article>
+            <article><span>আজকের সংগ্রহ</span><strong id="stat-today">৳ ০</strong><small>আজ গ্রহণ করা হয়েছে</small>
+            </article>
             <article><span>মোট সংগ্রহ</span><strong id="stat-total">৳ ০</strong><small>সব রসিদের মোট</small></article>
-            <article><span>মোট রসিদ</span><strong id="stat-receipts">০</strong><small>ফি গ্রহণের ইতিহাস</small></article>
+            <article><span>মোট রসিদ</span><strong id="stat-receipts">০</strong><small>ফি গ্রহণের ইতিহাস</small>
+            </article>
           </div>
           <div class="grid two">
-            <article class="panel"><div class="panel-head"><div><h3>সাম্প্রতিক ফি গ্রহণ</h3><p>সর্বশেষ ৮টি রসিদ</p></div><button class="btn ghost small" data-go="reports">সব দেখুন</button></div><div id="recent-table" class="table-wrap"></div></article>
-            <article class="panel"><div class="panel-head"><div><h3>শ্রেণীভিত্তিক শিক্ষার্থী</h3><p>বর্তমান শিক্ষাবর্ষ</p></div></div><div id="class-bars" class="class-bars"></div></article>
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>সাম্প্রতিক ফি গ্রহণ</h3>
+                  <p>সর্বশেষ ৮টি রসিদ</p>
+                </div><button class="btn ghost small" data-go="reports">সব দেখুন</button>
+              </div>
+              <div id="recent-table" class="table-wrap"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>শ্রেণীভিত্তিক শিক্ষার্থী</h3>
+                  <p>বর্তমান শিক্ষাবর্ষ</p>
+                </div>
+              </div>
+              <div id="class-bars" class="class-bars"></div>
+            </article>
           </div>
         </section>
 
         <section id="view-students" class="view">
-          <div class="section-actions"><div class="searchbox"><input id="student-search" placeholder="নাম, রোল বা মোবাইল দিয়ে খুঁজুন"><select id="student-class-filter"><option value="">সব শ্রেণী</option></select></div><button id="add-student" class="btn primary" data-write>+ নতুন শিক্ষার্থী</button></div>
-          <article class="panel"><div id="students-table" class="table-wrap"></div></article>
+          <div class="section-actions">
+            <div class="searchbox"><input id="student-search" placeholder="নাম, রোল বা মোবাইল দিয়ে খুঁজুন"><select
+                id="student-class-filter">
+                <option value="">সব শ্রেণী</option>
+              </select></div><button id="add-student" class="btn primary" data-write>+ নতুন শিক্ষার্থী</button>
+          </div>
+          <article class="panel">
+            <div id="students-table" class="table-wrap"></div>
+          </article>
         </section>
 
         <section id="view-payment" class="view">
           <div class="grid payment-grid">
             <article class="panel">
-              <div class="panel-head"><div><h3>শিক্ষার্থী নির্বাচন</h3><p>এক রসিদে একাধিক ফি গ্রহণ করুন</p></div></div>
+              <div class="panel-head">
+                <div>
+                  <h3>শিক্ষার্থী নির্বাচন</h3>
+                  <p>এক রসিদে একাধিক ফি গ্রহণ করুন</p>
+                </div>
+              </div>
               <form id="payment-form" class="form-grid">
-                <label class="span-2">শিক্ষার্থী<input id="payment-student-search" list="student-list" placeholder="নাম / রোল লিখুন" required><datalist id="student-list"></datalist></label>
+                <label class="span-2">শিক্ষার্থী<input id="payment-student-search" list="student-list"
+                    placeholder="নাম / রোল লিখুন" required><datalist id="student-list"></datalist></label>
                 <label>তারিখ<input id="payment-date" type="date" required></label>
                 <label>রসিদ নং<input value="স্বয়ংক্রিয়" disabled></label>
-                <div class="span-2"><span class="field-label">ফি নির্বাচন করুন</span><div id="fee-picker" class="fee-picker">
-                  <button type="button" data-fee="admission">ভর্তি</button><button type="button" data-fee="tuition">বেতন</button><button type="button" data-fee="exam">পরীক্ষার ফি</button><button type="button" data-fee="coaching">কোচিং ফি</button><button type="button" data-fee="other">অন্যান্য ফি</button>
-                </div></div>
-                <div id="fee-items" class="span-2 fee-items"><div class="empty-note">উপর থেকে ফি-এর ধরন নির্বাচন করুন</div></div>
-                <label class="span-2">মন্তব্য (ঐচ্ছিক)<textarea id="payment-note" rows="2" placeholder="প্রয়োজনে সংক্ষিপ্ত মন্তব্য"></textarea></label>
+                <div class="span-2"><span class="field-label">ফি নির্বাচন করুন</span>
+                  <div id="fee-picker" class="fee-picker">
+                    <button type="button" data-fee="admission">ভর্তি</button><button type="button"
+                      data-fee="tuition">বেতন</button><button type="button" data-fee="exam">পরীক্ষার ফি</button><button
+                      type="button" data-fee="coaching">কোচিং ফি</button><button type="button" data-fee="other">অন্যান্য
+                      ফি</button>
+                  </div>
+                </div>
+                <div id="fee-items" class="span-2 fee-items">
+                  <div class="empty-note">উপর থেকে ফি-এর ধরন নির্বাচন করুন</div>
+                </div>
+                <label class="span-2">মন্তব্য (ঐচ্ছিক)<textarea id="payment-note" rows="2"
+                    placeholder="প্রয়োজনে সংক্ষিপ্ত মন্তব্য"></textarea></label>
                 <div class="span-2 payment-total"><span>সর্বমোট</span><strong id="payment-total">৳ ০</strong></div>
                 <button class="btn primary span-2" type="submit">ফি গ্রহণ ও রসিদ তৈরি</button>
               </form>
             </article>
-            <aside class="panel student-preview" id="student-preview"><div class="empty-state"><span>♟</span><p>শিক্ষার্থী নির্বাচন করলে এখানে তথ্য দেখা যাবে</p></div></aside>
+            <aside class="panel student-preview" id="student-preview">
+              <div class="empty-state"><span>♟</span>
+                <p>শিক্ষার্থী নির্বাচন করলে এখানে তথ্য দেখা যাবে</p>
+              </div>
+            </aside>
           </div>
         </section>
 
         <section id="view-reports" class="view">
-          <article class="panel report-filters"><div class="panel-head"><div><h3>ফি গ্রহণের রিপোর্ট</h3><p>শ্রেণী, শিক্ষার্থী ও তারিখ অনুযায়ী Filter করুন</p></div></div><div class="form-grid report-grid">
-            <label>শ্রেণী<select id="report-class"><option value="">সব শ্রেণী</option></select></label>
-            <label>শিক্ষার্থী<select id="report-student"><option value="">সব শিক্ষার্থী</option></select></label>
-            <label>শুরু তারিখ<input id="report-from" type="date"></label>
-            <label>শেষ তারিখ<input id="report-to" type="date"></label>
-          </div><div class="report-actions"><button id="report-apply" class="btn primary">রিপোর্ট দেখুন</button><button id="report-print" class="btn ghost">Print / PDF</button><button id="report-excel" class="btn excel">Excel Download</button></div></article>
-          <article class="panel"><div class="report-summary"><span id="report-count">০টি রসিদ</span><strong id="report-total">মোট: ৳ ০</strong></div><div id="reports-table" class="table-wrap"></div></article>
+          <article class="panel report-filters">
+            <div class="panel-head">
+              <div>
+                <h3>ফি গ্রহণের রিপোর্ট</h3>
+                <p>শ্রেণী, শিক্ষার্থী ও তারিখ অনুযায়ী Filter করুন</p>
+              </div>
+            </div>
+            <div class="form-grid report-grid">
+              <label>শ্রেণী<select id="report-class">
+                  <option value="">সব শ্রেণী</option>
+                </select></label>
+              <label>শিক্ষার্থী<select id="report-student">
+                  <option value="">সব শিক্ষার্থী</option>
+                </select></label>
+              <label>শুরু তারিখ<input id="report-from" type="date"></label>
+              <label>শেষ তারিখ<input id="report-to" type="date"></label>
+            </div>
+            <div class="report-actions"><button id="report-apply" class="btn primary">রিপোর্ট দেখুন</button><button
+                id="report-print" class="btn ghost">Print / PDF</button><button id="report-excel"
+                class="btn excel">Excel Download</button></div>
+          </article>
+          <article class="panel">
+            <div class="report-summary"><span id="report-count">০টি রসিদ</span><strong id="report-total">মোট: ৳
+                ০</strong></div>
+            <div id="reports-table" class="table-wrap"></div>
+          </article>
 
           <article class="panel status-panel">
-            <div class="panel-head"><div><h3>ফি পরিশোধ স্ট্যাটাস</h3><p>সব শ্রেণী বা নির্দিষ্ট শ্রেণীর Paid / Not Paid তালিকা</p></div></div>
-            <div class="form-grid status-filter-grid">
-              <label>শ্রেণী<select id="status-class"><option value="">সব শ্রেণী একসঙ্গে</option></select></label>
-              <label>ফি-এর ধরন<select id="status-fee-type"><option value="tuition">বেতন</option><option value="exam">পরীক্ষার ফি</option><option value="coaching">কোচিং ফি</option><option value="admission">ভর্তি</option><option value="other">অন্যান্য ফি</option></select></label>
-              <label><span id="status-context-label">মাস</span><select id="status-context"></select></label>
-              <label>পরিশোধের অবস্থা<select id="status-payment"><option value="all">সবাই</option><option value="paid">শুধু Paid</option><option value="unpaid">শুধু Not Paid</option></select></label>
+            <div class="panel-head">
+              <div>
+                <h3>ফি পরিশোধ স্ট্যাটাস</h3>
+                <p>সব শ্রেণী বা নির্দিষ্ট শ্রেণীর Paid / Not Paid তালিকা</p>
+              </div>
             </div>
-            <div class="report-actions"><button id="status-apply" class="btn primary">স্ট্যাটাস দেখুন</button><button id="status-print" class="btn ghost">Print / PDF</button><button id="status-excel" class="btn excel">Excel Download</button></div>
+            <div class="form-grid status-filter-grid">
+              <label>শ্রেণী<select id="status-class">
+                  <option value="">সব শ্রেণী একসঙ্গে</option>
+                </select></label>
+              <label>ফি-এর ধরন<select id="status-fee-type">
+                  <option value="tuition">বেতন</option>
+                  <option value="exam">পরীক্ষার ফি</option>
+                  <option value="coaching">কোচিং ফি</option>
+                  <option value="admission">ভর্তি</option>
+                  <option value="other">অন্যান্য ফি</option>
+                </select></label>
+              <label><span id="status-context-label">মাস</span><select id="status-context"></select></label>
+              <label>পরিশোধের অবস্থা<select id="status-payment">
+                  <option value="all">সবাই</option>
+                  <option value="paid">শুধু Paid</option>
+                  <option value="unpaid">শুধু Not Paid</option>
+                </select></label>
+            </div>
+            <div class="report-actions"><button id="status-apply" class="btn primary">স্ট্যাটাস দেখুন</button><button
+                id="status-print" class="btn ghost">Print / PDF</button><button id="status-excel"
+                class="btn excel">Excel Download</button></div>
           </article>
-          <article class="panel"><div class="report-summary"><span id="status-count">মোট ০ জন</span><strong id="status-paid-summary">Paid ০ • Not Paid ০</strong></div><div id="status-table" class="table-wrap"></div></article>
+          <article class="panel">
+            <div class="report-summary"><span id="status-count">মোট ০ জন</span><strong id="status-paid-summary">Paid ০ •
+                Not Paid ০</strong></div>
+            <div id="status-table" class="table-wrap"></div>
+          </article>
         </section>
 
         <section id="view-users" class="view">
           <div class="grid two">
-            <article class="panel"><div class="panel-head"><div><h3>নতুন ব্যবহারকারী</h3><p>Admin, Accountant অথবা Teacher</p></div></div><form id="user-form" class="form-stack compact"><label>নাম<input name="name" required></label><label>Username<input name="username" required pattern="[A-Za-z0-9._-]{3,40}"></label><label>Password<input name="password" type="password" minlength="6" required></label><label>ভূমিকা<select name="role"><option value="accountant">Accountant</option><option value="teacher">Teacher</option><option value="admin">Admin</option></select></label><button class="btn primary" type="submit">ব্যবহারকারী তৈরি</button></form></article>
-            <article class="panel"><div class="panel-head"><div><h3>ব্যবহারকারী তালিকা</h3><p>Account চালু বা বন্ধ করুন</p></div></div><div id="users-table" class="table-wrap"></div></article>
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>নতুন ব্যবহারকারী</h3>
+                  <p>Admin, Accountant অথবা Teacher</p>
+                </div>
+              </div>
+              <form id="user-form" class="form-stack compact"><label>নাম<input name="name"
+                    required></label><label>Username<input name="username" required
+                    pattern="[A-Za-z0-9._-]{3,40}"></label><label>Password<input name="password" type="password"
+                    minlength="6" required></label><label>ভূমিকা<select name="role">
+                    <option value="accountant">Accountant</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                  </select></label><button class="btn primary" type="submit">ব্যবহারকারী তৈরি</button></form>
+            </article>
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>ব্যবহারকারী তালিকা</h3>
+                  <p>Account চালু বা বন্ধ করুন</p>
+                </div>
+              </div>
+              <div id="users-table" class="table-wrap"></div>
+            </article>
           </div>
         </section>
       </main>
@@ -134,14 +257,26 @@
 
   <dialog id="student-dialog">
     <form id="student-form" class="dialog-card">
-      <div class="dialog-head"><div><h3 id="student-dialog-title">নতুন শিক্ষার্থী</h3><p>প্রয়োজনীয় সব তথ্য পূরণ করুন</p></div><button type="button" class="icon-btn" data-close>×</button></div>
+      <div class="dialog-head">
+        <div>
+          <h3 id="student-dialog-title">নতুন শিক্ষার্থী</h3>
+          <p>প্রয়োজনীয় সব তথ্য পূরণ করুন</p>
+        </div><button type="button" class="icon-btn" data-close>×</button>
+      </div>
       <input type="hidden" name="id">
-      <div class="form-grid"><label class="span-2">শিক্ষার্থীর নাম<input name="name" required></label><label>শ্রেণী<select name="class_name" required></select></label><label>রোল<input name="roll" required></label><label class="span-2">পিতা/মাতার নাম<input name="guardian_name" required></label><label>মোবাইল নম্বর<input name="mobile" inputmode="tel" required></label><label>শিক্ষাবর্ষ<input name="academic_year" type="number" value="2026" required></label></div>
-      <div class="dialog-actions"><button type="button" class="btn ghost" data-close>বাতিল</button><button class="btn primary" type="submit">সংরক্ষণ করুন</button></div>
+      <div class="form-grid"><label class="span-2">শিক্ষার্থীর নাম<input name="name"
+            required></label><label>শ্রেণী<select name="class_name" required></select></label><label>রোল<input
+            name="roll" required></label><label class="span-2">পিতা/মাতার নাম<input name="guardian_name"
+            required></label><label>মোবাইল নম্বর<input name="mobile" inputmode="tel"
+            required></label><label>শিক্ষাবর্ষ<input name="academic_year" type="number" value="2026" required></label>
+      </div>
+      <div class="dialog-actions"><button type="button" class="btn ghost" data-close>বাতিল</button><button
+          class="btn primary" type="submit">সংরক্ষণ করুন</button></div>
     </form>
   </dialog>
   <script src="./config.js"></script>
-  <script src="./vendor/exceljs.min.js"></script>
+  <script src="./sw.js"></script>
   <script src="./app.js" defer></script>
 </body>
+
 </html>
